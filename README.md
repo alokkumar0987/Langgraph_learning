@@ -46,6 +46,9 @@ print(response.json())
 # USING GROQ_API_KAY
 
 ```
+
+
+
 from langchain_groq import ChatGroq
 
 llm = ChatGroq(
@@ -57,7 +60,7 @@ llm = ChatGroq(
     max_retries=2,
     # other params...
 )
-
+```
 
 messages = [
     (
