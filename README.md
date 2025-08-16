@@ -1,12 +1,14 @@
-# Langgraph_learning
+mm m# Langgraph_learning
+
+
 
 #method 1. Direct access API key 
-
+```
 import os
 
 os.environ["GROQ_API_KEY"] = "your_api_key_here"
 
-
+```
 #Method 2. through: .env using 
 ```
 
