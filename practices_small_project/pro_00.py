@@ -1,22 +1,21 @@
 import os
 from dotenv import load_dotenv
+from langchain_groq import ChatGroq
+from tools.search_tools import SearchTools  # <-- your custom tool
 
-
+# Load keys
 load_dotenv()
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+TAVILY_API_KEY = os.getenv("TAVILY_API_KEY")
 
-if not GROQ_API_KEY:
-    raise ValueError("GROQ_API_KEY is not set in the environment variables. Please set it in your .env file.")
+# Initialize Groq LLM
+llm = ChatGroq(model="llama3-8b-8192")
 
-from langchain_groq import ChatGroq
+# Use your custom Tavily search tool
+search_results = SearchTools.search_internet.invoke("bitcoin price live")
 
-llm = ChatGroq(
-    model="deepseek-r1-distill-llama-70b",
-    temperature=0,
-    max_tokens=None,
-    reasoning_format="parsed",
-    timeout=None,
-    max_retries=2,
-    # other params...
-)
+# Send Tavily results to Groq
+query = f"Summarize this search result into a tweet:\n{search_results}"
+resp = llm.invoke(query)
 
+print(resp.content)
