@@ -18,13 +18,14 @@ llm = ChatGroq(model="llama3-8b-8192")
 
 # -------- Define Agents as callable functions -------- #
 class TripAgents:
-
     def city_selection_agent(self):
         def node(state):
             query = f"""
             Select the best city based on weather, season, and prices.
-            Traveler preferences: {state.interests if hasattr(state, 'interests') else 'N/A'}
-            City options: {state.cities if hasattr(state, 'cities') else 'N/A'}
+            Traveling from: {state.origin}
+            City options: {state.cities}
+            Trip Date: {state.trip_range}
+            Traveler Interests: {state.interests}
             """
             resp = llm.invoke(query)
             state.result = resp.content
@@ -34,8 +35,8 @@ class TripAgents:
     def local_expert(self):
         def node(state):
             query = f"""
-            Provide the best insights about the selected city: {state.result if hasattr(state, 'result') else 'N/A'}
-            Include attractions, culture, hidden gems, and costs.
+            As a local expert, provide insights about: {state.result}
+            Include attractions, hidden gems, cultural hotspots, weather, events, and costs.
             """
             resp = llm.invoke(query)
             state.result = resp.content
@@ -45,8 +46,10 @@ class TripAgents:
     def travel_concierge(self):
         def node(state):
             query = f"""
-            Create a detailed travel itinerary for the selected city: {state.result if hasattr(state, 'result') else 'N/A'}
+            Create detailed itinerary for: {state.result}
             Include daily schedule, restaurants, hotels, budget, and packing tips.
+            Dates: {state.trip_range}
+            Interests: {state.interests}
             """
             resp = llm.invoke(query)
             state.result = resp.content
