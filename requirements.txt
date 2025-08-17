@@ -2,3 +2,7 @@ langgraph
 langchain
 python-dotenv
 langchain-groq
+langchain_community
+langchain-google-genai
+
+
