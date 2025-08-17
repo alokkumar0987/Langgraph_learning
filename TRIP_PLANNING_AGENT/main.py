@@ -7,7 +7,7 @@ from tools.search_tools import SearchTools
 
 
 
-from tools.search_tools import SearchTools 
+
 from trip_tasks import TripState, TripTasks  # Add TripTasks here
 from trip_agent import TripAgents
 
